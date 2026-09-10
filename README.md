@@ -116,9 +116,41 @@ The application is designed to work across:
 * Git
 * GitHub
 
-### Deployment
-* GitHub Pages for the frontend
-* Railway for the backend and database
+## 🌍 Deployment
+
+This project is fully deployed and live, using a modern three-service cloud architecture.
+
+### Frontend — GitHub Pages
+* **Live URL:** https://pragya2110.github.io/Expense-Tracker/
+* Hosted directly from the `expense-tracker-frontend/` folder
+* Automatically redeployed via a **GitHub Actions** workflow (`.github/workflows/deploy-frontend.yml`) on every push to `main`
+* No build step required — static HTML/CSS/JS served directly
+
+### Backend — Railway
+* **Live API Base URL:** https://expense-tracker-production-2e17.up.railway.app
+* Spring Boot REST API deployed directly from the `expense-tracker-backend/` folder (configured as the Root Directory in Railway)
+* Automatically redeployed on every push to `main`
+* Environment variables (database host, port, credentials) are injected securely via Railway's variable references — no secrets are stored in the codebase
+
+### Database — Railway MySQL
+* Managed MySQL instance hosted on Railway
+* Connected to the backend service via Railway's internal private networking
+* Schema defined in `database/schema.sql`
+
+### Deployment Flow
+
+```text
+git push origin main
+        │
+        ├──→ GitHub Actions builds & deploys frontend → GitHub Pages
+        │
+        └──→ Railway detects push → rebuilds & redeploys backend
+                        │
+                        ▼
+                  Connects to Railway MySQL
+```
+
+Every code change pushed to `main` automatically updates the live site — no manual deployment steps required.
 
 ---
 
@@ -354,19 +386,25 @@ The application is deployed and available online:
 
 ## 📸 Screenshots
 
-*(Add screenshots of the application here)*
-
 ### Dashboard
-*(Add your dashboard screenshot here)*
+
+<img width="1882" height="237" alt="image" src="https://github.com/user-attachments/assets/05de91c7-ae5c-42db-a231-074eb1f45873" />
+
 
 ### Expense Management
-*(Add your expense management screenshot here)*
+
+<img width="1896" height="865" alt="image" src="https://github.com/user-attachments/assets/9b4b015f-18f8-423f-8e4c-07d29cc91757" />
+
 
 ### Budget Overview
-*(Add your budget screenshot here)*
+
+<img width="1887" height="407" alt="image" src="https://github.com/user-attachments/assets/596f464a-75b5-4290-84c2-57fb42f05b06" />
+
 
 ### Expense Analytics
-*(Add your analytics screenshot here)*
+
+<img width="1897" height="870" alt="image" src="https://github.com/user-attachments/assets/16509af0-7675-4f7e-b942-4887339e06ec" />
+
 
 ---
 
