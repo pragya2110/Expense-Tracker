@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://expense-tracker-production-2e17.up.railway.app";
+
 let allExpenses = []
 
 const expenseForm =
@@ -32,7 +34,7 @@ expenseForm.addEventListener(
 
 
         let url =
-            "http://localhost:8080/api/expenses";
+            `${API_BASE_URL}/api/expenses`;
 
         let method = "POST";
 
@@ -41,7 +43,7 @@ expenseForm.addEventListener(
         if (id) {
 
             url =
-                `http://localhost:8080/api/expenses/${id}`;
+                `${API_BASE_URL}/api/expenses/${id}`;
 
             method = "PUT";
         }
@@ -101,7 +103,7 @@ async function loadExpenses() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/expenses"
+            `${API_BASE_URL}/api/expenses`
         );
 
         if (!response.ok) {
@@ -183,7 +185,7 @@ async function deleteExpense(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:8080/api/expenses/${id}`,
+            `${API_BASE_URL}/api/expenses/${id}`,
             {
                 method: "DELETE"
             }
@@ -218,7 +220,7 @@ async function editExpense(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:8080/api/expenses`
+            `${API_BASE_URL}/api/expenses`
         );
 
         const expenses = await response.json();
@@ -305,7 +307,7 @@ async function loadTotalIncome() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/income/total"
+            `${API_BASE_URL}/api/income/total`
         );
 
         const totalIncome =
@@ -331,7 +333,7 @@ async function loadTotalExpenses() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/expenses/total"
+            `${API_BASE_URL}/api/expenses/total`
         );
 
         const totalExpenses =
@@ -357,11 +359,11 @@ async function loadSavings() {
     try {
 
         const incomeResponse = await fetch(
-            "http://localhost:8080/api/income/total"
+            `${API_BASE_URL}/api/income/total`
         );
 
         const expenseResponse = await fetch(
-            "http://localhost:8080/api/expenses/total"
+            `${API_BASE_URL}/api/expenses/total`
         );
 
 
@@ -394,7 +396,7 @@ loadSavings();
 
 async function loadBudgetStatus() {
     try {
-        const response = await fetch("http://localhost:8080/api/budgets/status");
+        const response = await fetch(`${API_BASE_URL}/api/budgets/status`);
 
         if (!response.ok) {
             throw new Error("Failed to load budget status");
@@ -488,7 +490,7 @@ async function loadCategoryChart() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/expenses/analytics/category"
+            `${API_BASE_URL}/api/expenses/analytics/category`
         );
 
         if (!response.ok) {
@@ -500,9 +502,6 @@ async function loadCategoryChart() {
         const categories = data.map(item => item.category);
         const amounts = data.map(item => item.totalAmount);
 
-        /*
-         * Find the category with the highest spending.
-         */
         if (data.length > 0) {
 
             const highest = data[0];
@@ -567,7 +566,7 @@ async function loadMonthlyChart() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/expenses/analytics/monthly"
+            `${API_BASE_URL}/api/expenses/analytics/monthly`
         );
 
         if (!response.ok) {
@@ -639,7 +638,7 @@ async function loadAnalyticsTotalExpenses() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/expenses/total"
+            `${API_BASE_URL}/api/expenses/total`
         );
 
         const total = await response.json();
@@ -711,9 +710,6 @@ function filterExpenses() {
     const filteredExpenses =
         allExpenses.filter(expense => {
 
-            /*
-             * Search by title or category
-             */
             const matchesSearch =
                 expense.title
                     .toLowerCase()
@@ -723,33 +719,20 @@ function filterExpenses() {
                     .toLowerCase()
                     .includes(searchText);
 
-
-            /*
-             * Category filter
-             */
             const matchesCategory =
                 selectedCategory === "all"
                 ||
                 expense.category === selectedCategory;
 
-
-            /*
-             * Start date filter
-             */
             const matchesStartDate =
                 !startDate
                 ||
                 expense.date >= startDate;
 
-
-            /*
-             * End date filter
-             */
             const matchesEndDate =
                 !endDate
                 ||
                 expense.date <= endDate;
-
 
             return (
                 matchesSearch &&
@@ -817,5 +800,3 @@ document
 
         displayExpenses(allExpenses);
     });
-
-
